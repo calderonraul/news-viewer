@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "news-viewer-compose-navigation-clean"
 include ':app'
+include ':data'
+include ':data'
+include ':domain'

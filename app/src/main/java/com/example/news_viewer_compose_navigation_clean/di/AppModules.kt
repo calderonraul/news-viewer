@@ -14,8 +14,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,15 +60,23 @@ object DatabaseModule {
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     private const val connectTimeout: Long = 40// 20s
     private const val readTimeout: Long = 40 // 20s
-    private const val BASE_URL = "https://content.guardianapis.com/sections/"
-
+    private const val BASE_URL = "https://content.guardianapis.com/"
 
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient {
-        val okHttpClientBuilder = OkHttpClient.Builder()
+        val okHttpClientBuilder = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("api-key", "177e6fac-ce7c-40ab-9944-f80b49099371")
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }
             .connectTimeout(connectTimeout, TimeUnit.SECONDS)
             .readTimeout(readTimeout, TimeUnit.SECONDS)
         if (DEBUG) {

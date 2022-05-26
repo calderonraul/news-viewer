@@ -16,7 +16,7 @@ class NewsResponseRepositoryImpl(
     private val dao: NewsResponseDao
 ) : NewsResponseRepository {
     override suspend fun getNewsResponse() {
-        val listAux = api.getAllNews("177e6fac-ce7c-40ab-9944-f80b49099371")
+        val listAux = api.getAllNews()
         dao.clearTable()
         listAux.newsResponse?.let {
           dao.insertAll(it[0].response.results)

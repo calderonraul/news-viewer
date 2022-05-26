@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+
 android {
     compileSdk 32
 
@@ -36,6 +39,8 @@ dependencies {
     //Room
     def room_version = "2.4.2"
 
+    implementation 'androidx.room:room-ktx:2.2.1'
+
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // optional - Test helpers
@@ -48,6 +53,16 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
+
+
+    kapt "androidx.lifecycle:lifecycle-compiler:2.5.0-rc01"
+    implementation "androidx.room:room-runtime:2.5.0-alpha01"
+    kapt "androidx.room:room-compiler:2.5.0-alpha01"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+
+    
 
 
     implementation 'androidx.core:core-ktx:1.7.0'

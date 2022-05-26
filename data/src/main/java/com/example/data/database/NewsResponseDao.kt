@@ -5,16 +5,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.data.model.NewsResponse
+import com.example.data.model.Result
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsResponseDao {
-    @Query("SELECT * FROM response_table")
-    fun getAllNewsFromRoom(): Flow<NewsResponse>
+    @Query("SELECT * FROM results_table")
+    fun getAllNewsFromRoom(): Flow<List<Result>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(newsResponse: NewsResponse)
+    suspend fun insertAll(results: List<Result>)
 
-    @Query("DELETE FROM response_table")
+    @Query("DELETE FROM results_table")
     fun clearTable()
 }

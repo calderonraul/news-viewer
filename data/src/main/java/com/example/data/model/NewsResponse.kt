@@ -1,8 +1,11 @@
 package com.example.data.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "response_table")
+
 data class NewsResponse(
     val response: Response
 )
@@ -14,13 +17,16 @@ data class Response(
     val userTier: String
 )
 
+@Entity(tableName = "results_table")
 data class Result(
     val activeSponsorships: List<ActiveSponsorship>,
     val apiUrl: String,
     val editions: List<Edition>,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
     val id: String,
     val webTitle: String,
-    val webUrl: String
+    val webUrl: String,
 )
 
 data class ActiveSponsorship(

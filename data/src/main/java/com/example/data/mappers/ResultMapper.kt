@@ -6,7 +6,11 @@ import com.example.domain.entity.ResultDomain
 class ResultMapper : EntityMapper<Result, ResultDomain> {
     override fun mapFromEntity(entity: Result): ResultDomain {
         return ResultDomain(
-            activeSponsorships = ActiveSponsorShipMapper().fromEntityList(entity.activeSponsorships),
+            activeSponsorships = entity.activeSponsorships?.let {
+                ActiveSponsorShipMapper().fromEntityList(
+                    it
+                )
+            },
             apiUrl = entity.apiUrl,
             editions = EditionMapper().fromEntityList(entity.editions),
             id = entity.id,
@@ -17,7 +21,11 @@ class ResultMapper : EntityMapper<Result, ResultDomain> {
 
     override fun mapToEntity(domainModel: ResultDomain): Result {
         return Result(
-            activeSponsorships = ActiveSponsorShipMapper().toEntityList(domainModel.activeSponsorships),
+            activeSponsorships = domainModel.activeSponsorships?.let {
+                ActiveSponsorShipMapper().toEntityList(
+                    it
+                )
+            },
             apiUrl = domainModel.apiUrl,
             editions = EditionMapper().toEntityList(domainModel.editions),
             id = domainModel.id,

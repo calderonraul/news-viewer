@@ -12,7 +12,7 @@ data class ResponseDomain(
 )
 
 data class ResultDomain(
-    val activeSponsorships: List<ActiveSponsorshipDomain>,
+    val activeSponsorships: List<ActiveSponsorshipDomain>?,
     val apiUrl: String,
     val editions: List<EditionDomain>,
     val id: String,

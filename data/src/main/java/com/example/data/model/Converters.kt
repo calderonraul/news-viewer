@@ -24,7 +24,7 @@ class Converters() {
     }
 
     @TypeConverter
-    fun toSponsorship(activeSponsorship: List<ActiveSponsorship>): String {
+    fun toSponsorship(activeSponsorship: List<ActiveSponsorship>?): String {
         return Gson().toJson(
             activeSponsorship,
             object : TypeToken<List<ActiveSponsorship>>() {}.type

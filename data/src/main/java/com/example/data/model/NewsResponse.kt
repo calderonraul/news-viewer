@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 
 
 data class NewsResponse(
+    @Embedded
     val response: Response
 )
 
@@ -19,7 +20,7 @@ data class Response(
 
 @Entity(tableName = "results_table")
 data class Result(
-    val activeSponsorships: List<ActiveSponsorship>,
+    val activeSponsorships: List<ActiveSponsorship>?,
     val apiUrl: String,
     val editions: List<Edition>,
     @PrimaryKey(autoGenerate = false)

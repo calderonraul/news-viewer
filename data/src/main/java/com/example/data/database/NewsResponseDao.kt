@@ -10,8 +10,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsResponseDao {
+
     @Query("SELECT * FROM results_table")
     fun getAllNewsFromRoom(): Flow<List<Result>>
+
+    @Query("SELECT * FROM results_table WHERE id LIKE  '%' || :id || '%'")
+    fun getBusinessFromRoom(id: String): Flow<List<Result>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(results: List<Result>)

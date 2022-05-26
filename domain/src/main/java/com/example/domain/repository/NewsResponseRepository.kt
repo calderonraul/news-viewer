@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsResponseRepository {
     suspend fun getNewsResponse()
-    fun getDataFromRoom():Flow<List<ResultDomain>>
+    fun getDataFromRoom(section:String):Flow<List<ResultDomain>>
 }

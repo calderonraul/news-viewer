@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 class GetNewsResponseUseCase(private val repository: NewsResponseRepository) {
 
-    operator fun invoke(): Flow<List<ResultDomain>> {
-        return repository.getDataFromRoom()
+    operator fun invoke(section:String): Flow<List<ResultDomain>> {
+        return repository.getDataFromRoom(section)
     }
 
     suspend fun initDB(){

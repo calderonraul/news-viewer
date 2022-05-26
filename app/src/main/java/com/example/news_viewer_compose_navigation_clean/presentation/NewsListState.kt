@@ -6,5 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class NewsListUiState(
     val newsFlows : StateFlow<List<ResultDomain>>,
+    val wordValue: StateFlow<String>,
+    val onWordValueChanged: (String) -> Unit,
     val fetchMoreData: () -> Unit
 )

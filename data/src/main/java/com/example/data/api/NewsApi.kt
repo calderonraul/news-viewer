@@ -9,4 +9,6 @@ import retrofit2.http.Query
 interface NewsApi {
     @GET("sections")
     suspend fun getAllNews():ApiResponse<Response>
+
+
 }

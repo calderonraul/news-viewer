@@ -25,9 +25,16 @@ class NewsResponseRepositoryImpl(
 
     }
 
-    override fun getDataFromRoom(): Flow<List<ResultDomain>> {
-        return dao.getAllNewsFromRoom().map {
-            mapper.fromEntityList(it)
+    override fun getDataFromRoom(section:String): Flow<List<ResultDomain>> {
+        if (section.isBlank()){
+            return dao.getAllNewsFromRoom().map {
+                mapper.fromEntityList(it)
+            }
+        }else
+        {
+            return dao.getBusinessFromRoom(section).map {
+                mapper.fromEntityList(it)
+            }
         }
     }
 }

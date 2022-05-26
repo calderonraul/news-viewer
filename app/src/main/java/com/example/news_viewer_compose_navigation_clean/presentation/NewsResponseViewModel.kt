@@ -16,12 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsResponseViewModel @Inject constructor(private val getNewsResponseUseCase: GetNewsResponseUseCase) :
     ViewModel() {
+    private val wordValueFlow: MutableStateFlow<String> = MutableStateFlow("")
     private val newsData: MutableStateFlow<List<ResultDomain>> = MutableStateFlow(emptyList())
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             getNewsResponseUseCase.initDB()
-            getNewsResponseUseCase.invoke().collect {
+            getNewsResponseUseCase.invoke(wordValueFlow.value).collect {
                 newsData.value = it
             }
         }
@@ -29,14 +30,20 @@ class NewsResponseViewModel @Inject constructor(private val getNewsResponseUseCa
 
     private fun fetchList() {
         viewModelScope.launch(Dispatchers.IO) {
-            getNewsResponseUseCase.invoke().collect {
+            getNewsResponseUseCase.invoke(wordValueFlow.value).collect {
                 newsData.value = it
             }
         }
     }
 
+    private fun onWordChanged(value: String) {
+        wordValueFlow.value = value
+    }
+
     val registerState = NewsListUiState(
         newsFlows = newsData,
+        wordValue = wordValueFlow,
+        onWordValueChanged = this::onWordChanged,
         fetchMoreData = this::fetchList
 
     )

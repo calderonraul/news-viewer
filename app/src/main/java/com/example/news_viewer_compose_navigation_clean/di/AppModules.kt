@@ -2,13 +2,14 @@ package com.example.news_viewer_compose_navigation_clean.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.data.api.NewsApi
 import com.example.data.database.NewsResponseDao
 import com.example.data.database.NewsResponseDatabase
-import com.example.data.mappers.ResultMapper
+import com.example.data.mappers.newsResponseMappers.ResultMapper
+import com.example.data.mappers.tagsResponseMappers.ResultTagsMapper
 import com.example.domain.repository.NewsResponseRepository
 import com.example.domain.useCase.GetNewsResponseUseCase
+import com.example.domain.useCase.GetTagsUseCase
 import com.example.news_viewer_compose_navigation_clean.BuildConfig.DEBUG
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -112,6 +112,18 @@ object MapperModule {
         return ResultMapper()
     }
 
+
+}
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+object TagMapperModule {
+    @Provides
+    @Singleton
+    fun provideTagMapper(): ResultTagsMapper {
+        return ResultTagsMapper()
+    }
 }
 
 @Module
@@ -121,9 +133,10 @@ object RepositoryModule {
     fun provideRepository(
         api: NewsApi,
         mapper: ResultMapper,
-        dao: NewsResponseDao
+        dao: NewsResponseDao,
+        tagsMapper: ResultTagsMapper
     ): NewsResponseRepository {
-        return com.example.data.NewsResponseRepositoryImpl(api, mapper, dao)
+        return com.example.data.NewsResponseRepositoryImpl(api, mapper, dao, tagsMapper)
     }
 
 }
@@ -135,6 +148,16 @@ object UseCaseModule {
     @Singleton
     fun provideUseCase(newsResponseRepository: NewsResponseRepository): GetNewsResponseUseCase {
         return GetNewsResponseUseCase(newsResponseRepository)
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object UseCaseTagModule {
+    @Provides
+    @Singleton
+    fun provideTagUseCase(newsResponseRepository: NewsResponseRepository): GetTagsUseCase {
+        return GetTagsUseCase(newsResponseRepository)
     }
 }
 

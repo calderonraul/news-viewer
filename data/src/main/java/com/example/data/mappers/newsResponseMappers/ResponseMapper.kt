@@ -1,6 +1,8 @@
-package com.example.data.mappers
+package com.example.data.mappers.newsResponseMappers
 
+import com.example.data.mappers.EntityMapper
 import com.example.data.model.Response
+import com.example.data.model.SponsorLogoDimensionsTag
 import com.example.domain.entity.ResponseDomain
 
 class ResponseMapper : EntityMapper<Response, ResponseDomain> {

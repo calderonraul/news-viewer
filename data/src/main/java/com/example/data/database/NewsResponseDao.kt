@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.data.model.NewsResponse
 import com.example.data.model.Result
+import com.example.data.model.ResultTags
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,4 +23,13 @@ interface NewsResponseDao {
 
     @Query("DELETE FROM results_table")
     fun clearTable()
+
+    @Query("SELECT * FROM results_tags_table")
+    fun getAllTagsFromRoom():Flow<List<ResultTags>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllTags(resultTags: List<ResultTags>)
+
+    @Query("DELETE FROM results_tags_table")
+    fun clearTagsTable()
 }

@@ -55,5 +55,38 @@ class Converters() {
         ) ?: emptyList()
     }
 
+    @TypeConverter
+    fun toResultTags(resultTags:List<ResultTags>):String{
+        return Gson().toJson(
+            resultTags,
+            object : TypeToken<List<ResultTags>>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun fromResultTagsJson(json: String):List<ResultTags>{
+        return Gson().fromJson<List<ResultTags>>(
+            json,
+            object : TypeToken<List<ResultTags>>() {}.type
+        ) ?: emptyList()
+    }
+
+
+    @TypeConverter
+    fun toSponsorshipTag(activeSponsorship: List<ActiveSponsorshipTag>?): String {
+        return Gson().toJson(
+            activeSponsorship,
+            object : TypeToken<List<ActiveSponsorshipTag>>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun fromSponsorshipTagJson(json: String): List<ActiveSponsorshipTag> {
+        return Gson().fromJson<List<ActiveSponsorshipTag>>(
+            json,
+            object : TypeToken<List<ActiveSponsorshipTag>>() {}.type
+        ) ?: emptyList()
+    }
+
 
 }

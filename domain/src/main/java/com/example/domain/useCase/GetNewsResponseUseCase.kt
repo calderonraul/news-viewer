@@ -15,5 +15,6 @@ class GetNewsResponseUseCase(private val repository: NewsResponseRepository) {
     suspend fun initDB(){
         repository.getNewsResponse()
     }
+    
 
 }

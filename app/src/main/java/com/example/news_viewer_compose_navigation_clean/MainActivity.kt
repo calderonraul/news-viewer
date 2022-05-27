@@ -13,8 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.request.Tags
+import com.example.data.model.ResultTags
 import com.example.domain.entity.EditionDomain
 import com.example.domain.entity.ResultDomain
+import com.example.domain.entity.ResultTagsDomain
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsListUiState
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsResponseViewModel
 import com.example.news_viewer_compose_navigation_clean.ui.theme.NewsviewercomposenavigationcleanTheme
@@ -71,7 +74,7 @@ fun NewsItem(result: ResultDomain) {
 }
 
 @Composable
-fun BusinessItem(edition: EditionDomain) {
+fun TagItem(resultTags: ResultTagsDomain){
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -87,12 +90,12 @@ fun BusinessItem(edition: EditionDomain) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column() {
-                    Text(text = edition.webTitle, style = MaterialTheme.typography.h4)
-                    Text(text = edition.webUrl, style = MaterialTheme.typography.subtitle1)
+                    Text(text = resultTags.webTitle, style = MaterialTheme.typography.h4)
+                    Text(text = resultTags.webUrl, style = MaterialTheme.typography.subtitle1)
                 }
             }
         }
-    }
+    }    
 }
 
 @Composable
@@ -107,11 +110,22 @@ fun NewsList(state: NewsListUiState, aux: String) {
     }
 }
 
+@Composable
+fun TagsList(state: NewsListUiState) {
+    state.fetchMoreData()
+    val tagsList by state.tagsFlows.collectAsState()
+    LazyColumn() {
+        itemsIndexed(tagsList) { _, item ->
+            TagItem(resultTags = item)
+        }
+    }
+}
+
 
 @Composable
 fun Tabs(state: NewsListUiState) {
     var tabIndex by remember { mutableStateOf(0) } // 1.
-    val tabTitles = listOf("All news", "Business", "Football")
+    val tabTitles = listOf("All news", "Business", "Football","Tags")
     val tabCategory = listOf("", "business", "football")
     Column { // 2.
         TabRow(selectedTabIndex = tabIndex) { // 3.
@@ -126,6 +140,7 @@ fun Tabs(state: NewsListUiState) {
             0 -> NewsList(state = state, tabCategory[0])
             1 -> NewsList(state = state, tabCategory[1])
             2 -> NewsList(state = state, tabCategory[2])
+            3 -> TagsList(state = state)
         }
     }
 }

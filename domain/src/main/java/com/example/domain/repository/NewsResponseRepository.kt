@@ -8,4 +8,9 @@ interface NewsResponseRepository {
     fun getDataFromRoom(section:String):Flow<List<ResultDomain>>
     fun getTagsFromRoom():Flow<List<ResultTagsDomain>>
     suspend fun getTagsResponse()
+
+    //Lo que sirve
+    suspend fun getTagsSearchResponse(tagParam:String)
+
+
 }

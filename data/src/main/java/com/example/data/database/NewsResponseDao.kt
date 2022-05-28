@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.example.data.model.NewsResponse
 import com.example.data.model.Result
 import com.example.data.model.ResultTags
+import com.example.data.model.searchResponse.ResultSearch
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,11 +26,26 @@ interface NewsResponseDao {
     fun clearTable()
 
     @Query("SELECT * FROM results_tags_table")
-    fun getAllTagsFromRoom():Flow<List<ResultTags>>
+    fun getAllTagsFromRoom(): Flow<List<ResultTags>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllTags(resultTags: List<ResultTags>)
 
     @Query("DELETE FROM results_tags_table")
     fun clearTagsTable()
+
+
+    //lo que sirve
+
+    @Query("SELECT * FROM result_search_table")
+    fun getTagsSearchFromRoom(): Flow<List<ResultSearch>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllTagsSearch(resultTags: List<ResultSearch>)
+
+
+    @Query("DELETE FROM results_search_table")
+    fun clearTagsSearchTable()
+
+
 }

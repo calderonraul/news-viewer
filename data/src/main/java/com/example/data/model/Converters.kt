@@ -2,6 +2,8 @@ package com.example.data.model
 
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import com.example.data.model.searchResponse.FieldsSearch
+import com.example.data.model.searchResponse.TagSearch
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -56,7 +58,7 @@ class Converters() {
     }
 
     @TypeConverter
-    fun toResultTags(resultTags:List<ResultTags>):String{
+    fun toResultTags(resultTags: List<ResultTags>): String {
         return Gson().toJson(
             resultTags,
             object : TypeToken<List<ResultTags>>() {}.type
@@ -64,7 +66,7 @@ class Converters() {
     }
 
     @TypeConverter
-    fun fromResultTagsJson(json: String):List<ResultTags>{
+    fun fromResultTagsJson(json: String): List<ResultTags> {
         return Gson().fromJson<List<ResultTags>>(
             json,
             object : TypeToken<List<ResultTags>>() {}.type
@@ -86,6 +88,29 @@ class Converters() {
             json,
             object : TypeToken<List<ActiveSponsorshipTag>>() {}.type
         ) ?: emptyList()
+    }
+
+
+    @TypeConverter
+    fun toTag(tags: List<TagSearch>): String {
+        return Gson().toJson(
+            tags,
+            object : TypeToken<List<TagSearch>>() {}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun fromTagJson(json: String): List<TagSearch> {
+        return Gson().fromJson<List<TagSearch>>(
+            json,
+            object : TypeToken<List<TagSearch>>() {}.type
+        ) ?: emptyList()
+    }
+
+    @TypeConverter
+    fun toField(fieldsSearch: FieldsSearch): String {
+        return Gson().fromJson<FieldsSearch>(fieldsSearch, object : TypeToken<FieldsSearch>() {}.type)
+            ?: "xd"
     }
 
 

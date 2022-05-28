@@ -46,11 +46,21 @@ class NewsResponseRepositoryImpl(
 
     override suspend fun getTagsResponse() {
         val listTagsAux = api.getAllTags()
-        Log.wtf("raxd",listTagsAux.toString())
+
         dao.clearTagsTable()
         listTagsAux.tagsResponse.let {
             if (it != null) {
                 dao.insertAllTags(it.results)
+            }
+        }
+    }
+
+    override suspend fun getTagsSearchResponse(tagParam:String) {
+        val listTagsAux = api.getAllNewsByTag(tagParam)
+        dao.clearTagsSearchTable()
+        listTagsAux.tagsResponse?.results.let {
+            if (it != null) {
+                dao.insertAllTagsSearch(it)
             }
         }
     }

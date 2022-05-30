@@ -6,6 +6,7 @@ interface NewsResponseRepository {
     suspend fun getTagsSearchResponse(tagParam:String)
     suspend fun getSectionSearchResponse(tagParam:String)
     fun getSearchResultsFromRoom():Flow<List<ResultSearchDomain>>
+    fun getSearchResultByTitle(search:String):Flow<List<ResultSearchDomain>>
 
 
 }

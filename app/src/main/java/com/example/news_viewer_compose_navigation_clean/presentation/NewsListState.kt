@@ -10,5 +10,6 @@ data class NewsListUiState(
     val onWordValueChanged: (String) -> Unit,
     val numValue:StateFlow<Int>,
     val onNumValueChanged: (Int)->Unit,
-    val fetchMoreData: () -> Unit
+    val fetchMoreData: () -> Unit,
+    val fetchTitleData: ()->Unit
 )

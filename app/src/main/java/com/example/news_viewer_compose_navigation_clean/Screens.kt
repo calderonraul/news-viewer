@@ -4,16 +4,28 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.entity.searchResponseDomain.ResultSearchDomain
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsListUiState
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsResponseViewModel
+import androidx.compose.ui.text.input.TextFieldValue
 
 
 @Composable
@@ -43,10 +55,24 @@ fun NewsItem(result: ResultSearchDomain) {
 
 @Composable
 fun NewsList(state: NewsListUiState, aux: String, typeOfSearch: Int) {
+    val textState = remember { mutableStateOf(TextFieldValue("")) }
+    SearchView(state = textState)
+
+    if (textState.value.text.isEmpty()) {
+        state.fetchMoreData()
+    } else {
+        state.onWordValueChanged(textState.value.text)
+        state.fetchTitleData()
+    }
+
     state.onNumValueChanged(typeOfSearch)
     state.onWordValueChanged(aux)
-    state.fetchMoreData()
+
+
     val newsList by state.searchFlow.collectAsState()
+
+
+
     LazyColumn() {
         itemsIndexed(newsList) { _, item ->
             NewsItem(result = item)
@@ -180,11 +206,14 @@ fun InitTechScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDrawe
     }
 }
 
-
 @Composable
 fun InitBusinessScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDrawer: () -> Unit) {
+
     Column() {
-        TopBar(title = "Business", buttonIcon = Icons.Filled.List, onButtonClicked = { openDrawer() })
+        TopBar(
+            title = "Business",
+            buttonIcon = Icons.Filled.List,
+            onButtonClicked = { openDrawer() })
         TabsBusiness(state = viewModel.registerState)
     }
 }
@@ -193,11 +222,13 @@ fun InitBusinessScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openD
 @Composable
 fun InitFootballScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDrawer: () -> Unit) {
     Column() {
-        TopBar(title = "Football", buttonIcon = Icons.Filled.List, onButtonClicked = { openDrawer() })
+        TopBar(
+            title = "Football",
+            buttonIcon = Icons.Filled.List,
+            onButtonClicked = { openDrawer() })
         TabsFootball(state = viewModel.registerState)
     }
 }
-
 
 @Composable
 fun InitMusicScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDrawer: () -> Unit) {
@@ -206,10 +237,67 @@ fun InitMusicScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDraw
         TabsMusic(state = viewModel.registerState)
     }
 }
+
 @Composable
 fun InitPoliticsScreen(viewModel: NewsResponseViewModel = hiltViewModel(), openDrawer: () -> Unit) {
     Column() {
-        TopBar(title = "Politics", buttonIcon = Icons.Filled.List, onButtonClicked = { openDrawer() })
+        TopBar(
+            title = "Politics",
+            buttonIcon = Icons.Filled.List,
+            onButtonClicked = { openDrawer() })
         TabsPolitics(state = viewModel.registerState)
     }
+}
+
+
+@Composable
+fun SearchView(state: MutableState<TextFieldValue>) {
+    TextField(
+        value = state.value,
+        onValueChange = { value ->
+            state.value = value
+        },
+        modifier = Modifier
+            .fillMaxWidth(),
+        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        leadingIcon = {
+            Icon(
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(24.dp)
+            )
+        },
+        trailingIcon = {
+            if (state.value != TextFieldValue("")) {
+                IconButton(
+                    onClick = {
+                        state.value =
+                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .size(24.dp)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.White,
+            cursorColor = Color.White,
+            leadingIconColor = Color.White,
+            trailingIconColor = Color.White,
+            backgroundColor = colorResource(id = com.example.domain.R.color.colorPrimary),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        )
+    )
 }

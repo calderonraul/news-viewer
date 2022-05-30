@@ -19,5 +19,8 @@ interface NewsResponseDao {
     @Query("DELETE FROM result_search_table")
     fun clearTagsSearchTable()
 
+    @Query("SELECT * FROM result_search_table WHERE webTitle Like :search")
+    fun getTagsByTitleFromRoom(search:String): Flow<List<ResultSearch>>
+
 
 }

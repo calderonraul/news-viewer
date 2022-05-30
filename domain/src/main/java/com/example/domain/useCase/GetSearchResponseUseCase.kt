@@ -16,7 +16,5 @@ class GetSearchResponseUseCase(private val repository: NewsResponseRepository) {
         } else if (typeOfSearch == 2) {
             repository.getSectionSearchResponse(searchTerm)
         }
-
-
     }
 }

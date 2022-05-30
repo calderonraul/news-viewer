@@ -7,6 +7,7 @@ import com.example.data.database.NewsResponseDao
 import com.example.data.database.NewsResponseDatabase
 import com.example.data.mappers.searchResponseMappers.ResultSearchMapper
 import com.example.domain.repository.NewsResponseRepository
+import com.example.domain.useCase.GetResponseByTitleUseCase
 import com.example.domain.useCase.GetSearchResponseUseCase
 import com.example.news_viewer_compose_navigation_clean.BuildConfig.DEBUG
 import dagger.Module
@@ -137,6 +138,16 @@ object UseCaseSearchModule {
     @Singleton
     fun provideSearchUseCase(newsResponseRepository: NewsResponseRepository): GetSearchResponseUseCase {
         return GetSearchResponseUseCase(newsResponseRepository)
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object UseCaseSearchByTitleModule{
+    @Provides
+    @Singleton
+    fun provideSearchByTitleUseCase(newsResponseRepository: NewsResponseRepository):GetResponseByTitleUseCase{
+        return GetResponseByTitleUseCase(newsResponseRepository)
     }
 }
 

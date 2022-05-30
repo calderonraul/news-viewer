@@ -40,4 +40,10 @@ class NewsResponseRepositoryImpl(
             searchMapper.fromEntityList(it)
         }
     }
+
+    override fun getSearchResultByTitle(search: String): Flow<List<ResultSearchDomain>> {
+        return dao.getTagsByTitleFromRoom(search).map {
+            searchMapper.fromEntityList(it)
+        }
+    }
 }

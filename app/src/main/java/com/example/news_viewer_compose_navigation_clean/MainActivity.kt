@@ -8,11 +8,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.news_viewer_compose_navigation_clean.presentation.NewsResponseViewModel
 import com.example.news_viewer_compose_navigation_clean.ui.theme.NewsviewercomposenavigationcleanTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -108,20 +107,11 @@ fun AppMainScreen() {
 }
 
 
-/*
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     NewsviewercomposenavigationcleanTheme {
-        val test = ResultDomain(
-            id = "commentisfree",
-            webTitle = "Opinion",
-            webUrl = "https://www.theguardian.com/commentisfree",
-            apiUrl = "https://content.guardianapis.com/commentisfree",
-            editions = emptyList(),
-            activeSponsorships = emptyList()
-        )
-        NewsItem(result = test)
+       AppMainScreen()
     }
-}*/
+}

@@ -10,14 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.request.Tags
-import com.example.data.model.ResultTags
-import com.example.domain.entity.EditionDomain
-import com.example.domain.entity.ResultDomain
-import com.example.domain.entity.ResultTagsDomain
+import com.example.domain.entity.searchResponseDomain.ResultSearchDomain
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsListUiState
 import com.example.news_viewer_compose_navigation_clean.presentation.NewsResponseViewModel
 import com.example.news_viewer_compose_navigation_clean.ui.theme.NewsviewercomposenavigationcleanTheme
@@ -49,7 +44,7 @@ fun InitFirstScreen(viewModel: NewsResponseViewModel = hiltViewModel()) {
 
 
 @Composable
-fun NewsItem(result: ResultDomain) {
+fun NewsItem(result: ResultSearchDomain) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -65,7 +60,7 @@ fun NewsItem(result: ResultDomain) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column() {
-                    Text(text = result.webTitle, style = MaterialTheme.typography.h4)
+                    Text(text = result.webTitle, style = MaterialTheme.typography.h6)
                     Text(text = result.webUrl, style = MaterialTheme.typography.subtitle1)
                 }
             }
@@ -73,50 +68,16 @@ fun NewsItem(result: ResultDomain) {
     }
 }
 
-@Composable
-fun TagItem(resultTags: ResultTagsDomain){
-    Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .height(150.dp),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Surface() {
-            Row(
-                Modifier
-                    .padding(4.dp)
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Column() {
-                    Text(text = resultTags.webTitle, style = MaterialTheme.typography.h4)
-                    Text(text = resultTags.webUrl, style = MaterialTheme.typography.subtitle1)
-                }
-            }
-        }
-    }    
-}
 
 @Composable
-fun NewsList(state: NewsListUiState, aux: String) {
+fun NewsList(state: NewsListUiState, aux: String,typeOfSearch:Int) {
+    state.onNumValueChanged(typeOfSearch)
     state.onWordValueChanged(aux)
     state.fetchMoreData()
-    val newsList by state.newsFlows.collectAsState()
+    val newsList by state.searchFlow.collectAsState()
     LazyColumn() {
         itemsIndexed(newsList) { _, item ->
             NewsItem(result = item)
-        }
-    }
-}
-
-@Composable
-fun TagsList(state: NewsListUiState) {
-    state.fetchMoreData()
-    val tagsList by state.tagsFlows.collectAsState()
-    LazyColumn() {
-        itemsIndexed(tagsList) { _, item ->
-            TagItem(resultTags = item)
         }
     }
 }
@@ -125,8 +86,8 @@ fun TagsList(state: NewsListUiState) {
 @Composable
 fun Tabs(state: NewsListUiState) {
     var tabIndex by remember { mutableStateOf(0) } // 1.
-    val tabTitles = listOf("All news", "Business", "Football","Tags")
-    val tabCategory = listOf("", "business", "football")
+    val tabTitles = listOf("Tech", "Business", "Football")
+    val tabCategory = listOf("technology", "business", "football")
     Column { // 2.
         TabRow(selectedTabIndex = tabIndex) { // 3.
             tabTitles.forEachIndexed { index, title ->
@@ -137,14 +98,14 @@ fun Tabs(state: NewsListUiState) {
             }
         }
         when (tabIndex) { // 6.
-            0 -> NewsList(state = state, tabCategory[0])
-            1 -> NewsList(state = state, tabCategory[1])
-            2 -> NewsList(state = state, tabCategory[2])
-            3 -> TagsList(state = state)
+            0 -> NewsList(state = state, tabCategory[0],2)
+            1 -> NewsList(state = state, tabCategory[1],2)
+            2 -> NewsList(state = state, tabCategory[2],2)
         }
     }
 }
 
+/*
 
 @Preview(showBackground = true)
 @Composable
@@ -160,4 +121,4 @@ fun DefaultPreview() {
         )
         NewsItem(result = test)
     }
-}
+}*/

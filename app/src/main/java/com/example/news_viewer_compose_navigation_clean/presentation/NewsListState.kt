@@ -1,14 +1,14 @@
 package com.example.news_viewer_compose_navigation_clean.presentation
 
-import com.example.domain.entity.ResultDomain
-import com.example.domain.entity.ResultTagsDomain
+import com.example.domain.entity.searchResponseDomain.ResultSearchDomain
 import kotlinx.coroutines.flow.StateFlow
 
 
 data class NewsListUiState(
-    val newsFlows: StateFlow<List<ResultDomain>>,
-    val tagsFlows: StateFlow<List<ResultTagsDomain>>,
+    val searchFlow: StateFlow<List<ResultSearchDomain>>,
     val wordValue: StateFlow<String>,
     val onWordValueChanged: (String) -> Unit,
+    val numValue:StateFlow<Int>,
+    val onNumValueChanged: (Int)->Unit,
     val fetchMoreData: () -> Unit
 )

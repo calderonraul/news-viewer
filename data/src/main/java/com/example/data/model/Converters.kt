@@ -1,7 +1,6 @@
 package com.example.data.model
 
 import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import com.example.data.model.searchResponse.FieldsSearch
 import com.example.data.model.searchResponse.TagSearch
 import com.google.gson.Gson
@@ -9,98 +8,17 @@ import com.google.gson.reflect.TypeToken
 
 class Converters() {
 
-    @TypeConverter
-    fun toNewsResponseJson(result: List<Result>): String {
-        return Gson().toJson(
-            result,
-            object : TypeToken<List<Result>>() {}.type
-        ) ?: "[]"
-    }
 
     @TypeConverter
-    fun fromNewsResponseJson(json: String): List<Result> {
-        return Gson().fromJson<List<Result>>(
-            json,
-            object : TypeToken<List<Result>>() {}.type
-        ) ?: emptyList()
-    }
-
-    @TypeConverter
-    fun toSponsorship(activeSponsorship: List<ActiveSponsorship>?): String {
-        return Gson().toJson(
-            activeSponsorship,
-            object : TypeToken<List<ActiveSponsorship>>() {}.type
-        ) ?: "[]"
-    }
-
-    @TypeConverter
-    fun fromSponsorshipJson(json: String): List<ActiveSponsorship> {
-        return Gson().fromJson<List<ActiveSponsorship>>(
-            json,
-            object : TypeToken<List<ActiveSponsorship>>() {}.type
-        ) ?: emptyList()
-    }
-
-    @TypeConverter
-    fun toEditions(edition: List<Edition>): String {
-        return Gson().toJson(
-            edition,
-            object : TypeToken<List<Edition>>() {}.type
-        ) ?: "[]"
-    }
-
-    @TypeConverter
-    fun fromEditionJson(json: String): List<Edition> {
-        return Gson().fromJson<List<Edition>>(
-            json,
-            object : TypeToken<List<Edition>>() {}.type
-        ) ?: emptyList()
-    }
-
-    @TypeConverter
-    fun toResultTags(resultTags: List<ResultTags>): String {
-        return Gson().toJson(
-            resultTags,
-            object : TypeToken<List<ResultTags>>() {}.type
-        ) ?: "[]"
-    }
-
-    @TypeConverter
-    fun fromResultTagsJson(json: String): List<ResultTags> {
-        return Gson().fromJson<List<ResultTags>>(
-            json,
-            object : TypeToken<List<ResultTags>>() {}.type
-        ) ?: emptyList()
-    }
-
-
-    @TypeConverter
-    fun toSponsorshipTag(activeSponsorship: List<ActiveSponsorshipTag>?): String {
-        return Gson().toJson(
-            activeSponsorship,
-            object : TypeToken<List<ActiveSponsorshipTag>>() {}.type
-        ) ?: "[]"
-    }
-
-    @TypeConverter
-    fun fromSponsorshipTagJson(json: String): List<ActiveSponsorshipTag> {
-        return Gson().fromJson<List<ActiveSponsorshipTag>>(
-            json,
-            object : TypeToken<List<ActiveSponsorshipTag>>() {}.type
-        ) ?: emptyList()
-    }
-
-
-    @TypeConverter
-    fun toTag(tags: List<TagSearch>): String {
+    fun toTag(tags: List<TagSearch>?): String {
         return Gson().toJson(
             tags,
-            object : TypeToken<List<TagSearch>>() {}.type
+            object : TypeToken<List<TagSearch>?>() {}.type
         ) ?: "[]"
     }
 
     @TypeConverter
-    fun fromTagJson(json: String): List<TagSearch> {
+    fun fromTagJson(json: String): List<TagSearch>? {
         return Gson().fromJson<List<TagSearch>>(
             json,
             object : TypeToken<List<TagSearch>>() {}.type
@@ -108,9 +26,19 @@ class Converters() {
     }
 
     @TypeConverter
-    fun toField(fieldsSearch: FieldsSearch): String {
-        return Gson().fromJson<FieldsSearch>(fieldsSearch, object : TypeToken<FieldsSearch>() {}.type)
-            ?: "xd"
+    fun toField(fieldsSearch: FieldsSearch?): String {
+        return Gson().toJson(
+            fieldsSearch,
+            object :TypeToken<FieldsSearch>() {}.type
+        ) ?:""
+    }
+
+    @TypeConverter
+    fun fromFieldJson(json: String):FieldsSearch?{
+        return Gson().fromJson<FieldsSearch>(
+            json,
+            object :TypeToken<FieldsSearch>() {}.type
+        )
     }
 
 

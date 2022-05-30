@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey
 @Entity("result_search_table")
 data class ResultSearch(
     val apiUrl: String,
-    @Embedded
-    val fields: FieldsSearch,
+    val fields: FieldsSearch?,
     @PrimaryKey(autoGenerate = false)
     val id: String,
     val isHosted: Boolean,
@@ -17,7 +16,7 @@ data class ResultSearch(
     val pillarName: String,
     val sectionId: String,
     val sectionName: String,
-    val tags: List<TagSearch>,
+    val tags: List<TagSearch>?,
     val type: String,
     val webPublicationDate: String,
     val webTitle: String,

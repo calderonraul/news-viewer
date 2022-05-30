@@ -1,9 +1,7 @@
 package com.example.data.mappers.searchResponseMappers
 
 import com.example.data.mappers.EntityMapper
-import com.example.data.model.Result
 import com.example.data.model.searchResponse.TagSearch
-import com.example.domain.entity.ResultDomain
 import com.example.domain.entity.searchResponseDomain.TagSearchDomain
 
 class TagSearchMapper : EntityMapper<TagSearch, TagSearchDomain> {

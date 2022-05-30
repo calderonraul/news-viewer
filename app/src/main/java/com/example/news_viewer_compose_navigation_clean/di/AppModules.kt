@@ -5,11 +5,9 @@ import androidx.room.Room
 import com.example.data.api.NewsApi
 import com.example.data.database.NewsResponseDao
 import com.example.data.database.NewsResponseDatabase
-import com.example.data.mappers.newsResponseMappers.ResultMapper
-import com.example.data.mappers.tagsResponseMappers.ResultTagsMapper
+import com.example.data.mappers.searchResponseMappers.ResultSearchMapper
 import com.example.domain.repository.NewsResponseRepository
-import com.example.domain.useCase.GetNewsResponseUseCase
-import com.example.domain.useCase.GetTagsUseCase
+import com.example.domain.useCase.GetSearchResponseUseCase
 import com.example.news_viewer_compose_navigation_clean.BuildConfig.DEBUG
 import dagger.Module
 import dagger.Provides
@@ -103,26 +101,14 @@ object NetworkModule {
 
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-object MapperModule {
-    @Provides
-    @Singleton
-    fun provideMapper(): ResultMapper {
-        return ResultMapper()
-    }
-
-
-}
-
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TagMapperModule {
+object SearchMapper {
     @Provides
     @Singleton
-    fun provideTagMapper(): ResultTagsMapper {
-        return ResultTagsMapper()
+    fun provideSearchMapper(): ResultSearchMapper {
+        return ResultSearchMapper()
     }
 }
 
@@ -132,32 +118,25 @@ object RepositoryModule {
     @Provides
     fun provideRepository(
         api: NewsApi,
-        mapper: ResultMapper,
         dao: NewsResponseDao,
-        tagsMapper: ResultTagsMapper
+        searchMapper: ResultSearchMapper
     ): NewsResponseRepository {
-        return com.example.data.NewsResponseRepositoryImpl(api, mapper, dao, tagsMapper)
+        return com.example.data.NewsResponseRepositoryImpl(
+            api,
+            dao,
+            searchMapper
+        )
     }
 
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCaseModule {
+object UseCaseSearchModule {
     @Provides
     @Singleton
-    fun provideUseCase(newsResponseRepository: NewsResponseRepository): GetNewsResponseUseCase {
-        return GetNewsResponseUseCase(newsResponseRepository)
-    }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object UseCaseTagModule {
-    @Provides
-    @Singleton
-    fun provideTagUseCase(newsResponseRepository: NewsResponseRepository): GetTagsUseCase {
-        return GetTagsUseCase(newsResponseRepository)
+    fun provideSearchUseCase(newsResponseRepository: NewsResponseRepository): GetSearchResponseUseCase {
+        return GetSearchResponseUseCase(newsResponseRepository)
     }
 }
 

@@ -11,14 +11,14 @@ class ResultSearchMapper : EntityMapper<ResultSearch, ResultSearchDomain> {
     override fun mapFromEntity(entity: ResultSearch): ResultSearchDomain {
         return ResultSearchDomain(
             apiUrl = entity.apiUrl,
-            fields = FieldSearchMapper().mapFromEntity(entity.fields),
+            fields = entity.fields?.let { FieldSearchMapper().mapFromEntity(it) },
             id = entity.id,
             isHosted = entity.isHosted,
             pillarId = entity.pillarId,
             pillarName = entity.pillarName,
             sectionId = entity.sectionId,
             sectionName = entity.sectionName,
-            tags = TagSearchMapper().fromEntityList(entity.tags),
+            tags = entity.tags?.let { TagSearchMapper().fromEntityList(it) },
             type = entity.type,
             webPublicationDate = entity.webPublicationDate,
             webTitle = entity.webTitle,
@@ -29,14 +29,14 @@ class ResultSearchMapper : EntityMapper<ResultSearch, ResultSearchDomain> {
     override fun mapToEntity(domainModel: ResultSearchDomain): ResultSearch {
         return ResultSearch(
             apiUrl = domainModel.apiUrl,
-            fields = FieldSearchMapper().mapToEntity(domainModel.fields),
+            fields = domainModel.fields?.let { FieldSearchMapper().mapToEntity(it) },
             id = domainModel.id,
             isHosted = domainModel.isHosted,
             pillarId = domainModel.pillarId,
             pillarName = domainModel.pillarName,
             sectionId = domainModel.sectionId,
             sectionName = domainModel.sectionName,
-            tags = TagSearchMapper().toEntityList(domainModel.tags),
+            tags = domainModel.tags?.let { TagSearchMapper().toEntityList(it) },
             type = domainModel.type,
             webPublicationDate = domainModel.webPublicationDate,
             webTitle = domainModel.webTitle,

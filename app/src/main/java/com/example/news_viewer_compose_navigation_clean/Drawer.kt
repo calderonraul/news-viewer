@@ -40,9 +40,10 @@ fun Drawer(
             Text(
                 text = screen.title,
                 style = MaterialTheme.typography.h4,
-                modifier = Modifier.clickable {
-                    onDestinationClicked(screen.route)
-                }
+                modifier = Modifier
+                    .clickable {
+                        onDestinationClicked(screen.route)
+                    }
             )
         }
     }
@@ -60,6 +61,6 @@ private val screens = listOf(
 @Composable
 fun DrawerPreview() {
     NavigationDrawerTheme {
-
+        Drawer {}
     }
 }

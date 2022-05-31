@@ -274,7 +274,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
                 IconButton(
                     onClick = {
                         state.value =
-                            TextFieldValue("") // Remove text from TextField when you press the 'X' icon
+                            TextFieldValue("")
                     }
                 ) {
                     Icon(
@@ -288,13 +288,13 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             }
         },
         singleLine = true,
-        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        shape = RectangleShape,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = colorResource(id = com.example.domain.R.color.colorPrimary),
+            backgroundColor = colorResource(id = com.example.domain.R.color.purple_500),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
